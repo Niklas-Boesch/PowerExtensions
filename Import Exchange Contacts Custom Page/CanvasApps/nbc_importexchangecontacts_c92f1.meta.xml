@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>nbc_importexchangecontacts_c92f1</Name>
+  <AppVersion>2024-10-08T10:34:41Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.24094.14.0</CreatedByClientVersion>
+  <MinClientVersion>3.24094.14.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.24094.14","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"false","isUnifiedRootApp":"false","sienaVersion":"20241008T102530Z-3.24094.14.0"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>rgba(247, 116, 38, 1)</BackgroundColor>
+  <DisplayName>Import Exchange Contacts</DisplayName>
+  <Description xsi:nil="true"></Description>
+  <CommitMessage xsi:nil="true"></CommitMessage>
+  <Publisher></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{"c3f7cafb-7b06-4fda-9f16-bbc620a99bc2":{"id":"/providers/microsoft.powerapps/apis/shared_office365","displayName":"Office 365 Outlook","iconUri":"https://connectoricons-prod.azureedge.net/releases/v1.0.1706/1.0.1706.3851/office365/icon.png","dataSources":["Office365Outlook"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["ContactGetTablesV2","ContactGetItems_V2"]}}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"Contacts":{"entitySetName":"contacts","logicalName":"contact"},"Accounts":{"entitySetName":"accounts","logicalName":"account"}},"components":[{"componentName":"CustomControl","identifier":"cat_PowerCAT.SearchBox","identifierType":"LogicalName"},{"componentName":"CustomControl","identifier":"cat_PowerCAT.FluentDetailsList","identifierType":"LogicalName"}]}}</DatabaseReferences>
+  <AppComponents>[]</AppComponents>
+  <AppComponentDependencies>[{"appComponentName":"2e88179d732a402184a767c94eab038b","appName":"a91dc30f-a8e4-4088-b9fd-4edcfe0d9214","appComponentLibraryName":"1ef0b3fb-d075-44a2-bb47-d515225b8d7f","appComponentLibraryVersion":"2024-10-08T10:05:54Z","appComponentLibraryLogicalName":"cat_powercatcomponentlibrary_0be3a","environmentName":"ac1cc164-5bb1-e67a-902d-c014d54d611e"}]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>2</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <AdminControlBypassConsent>0</AdminControlBypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"logicalname":"contact","componenttype":1},{"logicalname":"account","componenttype":1},{"dependencyid":"","logicalname":"cat_PowerCAT.SearchBox","componenttype":66,"componenttypeplatformname":"CustomControl"},{"dependencyid":"","logicalname":"cat_PowerCAT.FluentDetailsList","componenttype":66,"componenttypeplatformname":"CustomControl"},{"logicalname":"cat_powercatcomponentlibrary_0be3a","componenttype":300,"componenttypeplatformname":"CanvasApp"}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/nbc_importexchangecontacts_c92f1_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/nbc_importexchangecontacts_c92f1_DocumentUri.msapp</DocumentUri>
+  <AdditionalUris>
+    <AdditionalUri>/CanvasApps/nbc_importexchangecontacts_c92f1_AdditionalUris0_identity.json</AdditionalUri>
+  </AdditionalUris>
+</CanvasApp>
