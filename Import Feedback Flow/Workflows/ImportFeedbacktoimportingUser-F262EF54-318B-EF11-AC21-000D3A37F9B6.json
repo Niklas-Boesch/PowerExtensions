@@ -1,0 +1,195 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "nbc_sharedcommondataserviceforapps_1ab6d"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "nbc_sharedcommondataserviceforapps_1ab6d"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_an_Import_is_complete": {
+          "metadata": {
+            "operationMetadataId": "e385831e-e0f3-4d44-822a-5cf16c37036d"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 4,
+              "subscriptionRequest/entityname": "importfile",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filterexpression": "statuscode eq 4"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Initialize_variable:_Notification_Config": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "1d539546-f845-424f-98bb-89f83b6a578d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Notification Config",
+                "type": "object",
+                "value": {
+                  "Title": "Import Complete",
+                  "Body": "",
+                  "Data": null,
+                  "IconType": 100000001
+                }
+              }
+            ]
+          },
+          "description": "IconType: 100000001 = Success, 100000002 = Failure, 100000003 = Warning"
+        },
+        "If_Success_=_Total": {
+          "actions": {
+            "Set_variable:_Notification_Config_Success_Case": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "de5735e7-b703-477f-aa55-d679b57e2fb5"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "Notification Config",
+                "value": {
+                  "Title": "Import Complete",
+                  "Body": " @{triggerOutputs()?['body/successcount']} @{triggerOutputs()?['body/targetentityname']} rows have been successfully imported",
+                  "Data": null,
+                  "IconType": 100000001
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_variable:_Notification_Config": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerOutputs()?['body/successcount']",
+              "@triggerOutputs()?['body/totalcount']"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "52592747-b827-40c7-9e0b-70a640d0599a"
+          },
+          "type": "If",
+          "description": "@{triggerOutputs()?['body/successcount']} is equal to @{triggerOutputs()?['body/totalcount']}"
+        },
+        "If_Error_gt_0": {
+          "actions": {
+            "Set_variable:_Notification_Config_Error_Case": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "82c9db3b-ef57-4e66-aa4a-713c0a010614"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "Notification Config",
+                "value": {
+                  "Title": "Import Complete",
+                  "Body": "@{triggerOutputs()?['body/successcount']} @{triggerOutputs()?['body/targetentityname']} rows have been successfully imported. There were  @{triggerOutputs()?['body/failurecount']} errors during import. Please open the result page and review the import failures in the tabs **Failures** and **Partial Failure**. You may then download the Error Rows via the button on the **Failures** subgrid (Use *Data to Columns* in excel to get a nicely formatted table)",
+                  "Data": {
+                    "actions": [
+                      {
+                        "data": {
+                          "url": "?pagetype=entityrecord&etn=importfile&id=@{triggerOutputs()?['body/importfileid']}",
+                          "navigationTarget": "newWindow"
+                        },
+                        "title": "Open Errors"
+                      }
+                    ]
+                  },
+                  "IconType": 100000003
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "If_Success_=_Total": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@add(triggerOutputs()?['body/failurecount'], triggerOutputs()?['body/partialfailurecount'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ddb2f583-dc51-489b-8f1c-2ee66ff1bb1d"
+          },
+          "type": "If",
+          "description": "add(triggerOutputs()?['body/failurecount'], triggerOutputs()?['body/partialfailurecount'])"
+        },
+        "Create_In-App_Notification": {
+          "runAfter": {
+            "If_Error_gt_0": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c8693e26-29f8-4f04-a65e-0173b32b9bfa"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "CreateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "appnotifications",
+              "item/title": "@variables('Notification Config')?['Title']",
+              "item/body": "@variables('Notification Config')?['Body']",
+              "item/data": "@variables('Notification Config')?['Data']",
+              "item/icontype": "@variables('Notification Config')?['IconType']",
+              "item/ownerid@odata.bind": "systemusers(@{triggerOutputs()?['body/_createdby_value']})"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
